@@ -1,94 +1,97 @@
-<!-- para poder ver el archivo desde el frontend se tiene que poner la direccion http://127.0.0.1:7000/index.html -->
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca</title>
-    <link rel="stylesheet" href="estilos.css">
-</head>
-<body>
-    <div class="container">
-        <h1>📚 Biblioteca</h1>
-        <h2>Opciones</h2>
-        <div class="botones">
-            <button onclick="listarLibros()">📄 Listar Libros</button>
-            <button onclick="buscarPorTitulo()">🔍 Buscar por Título</button>
-            <button onclick="buscarPorCategoria()">📂 Buscar por Categoría</button>
-            <button onclick="crearLibro()">➕ Crear Libro</button>
-            <button onclick="actualizarLibro()">✏️ Actualizar Libro</button>
-            <button onclick="eliminarLibro()">🗑️ Eliminar Libro</button>
-        </div>
-
-        <h2>Resultados</h2>
-        <pre class="result" id="result">Haz clic en un botón para ver resultados...</pre>
-    </div>
-
-    <script>
-        const API_URL = "http://127.0.0.1:8000";
-
-        async function listarLibros() {
-            const response = await fetch(`${API_URL}/libros/`);
-            const data = await response.json();
-            document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-        }
-
-        async function buscarPorTitulo() {
-            const titulo = prompt("Ingrese el título a buscar:");
-            const response = await fetch(`${API_URL}/libros/buscar/?titulo=${titulo}`);
-            const data = await response.json();
-            document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-        }
-
-        async function buscarPorCategoria() {
-            const categoria = prompt("Ingrese la categoría a buscar:");
-            const response = await fetch(`${API_URL}/libros/categoria/?categoria=${categoria}`);
-            const data = await response.json();
-            document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-        }
-
-        async function crearLibro() {
-            const libro = {
-                titulo: prompt("Título del libro:"),
-                autor: prompt("Autor del libro:"),
-                isbn: prompt("ISBN del libro (13 caracteres):"),
-                categoria: prompt("Categoría del libro:")
-            };
-            const response = await fetch(`${API_URL}/libros/`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(libro)
-            });
-            const data = await response.json();
-            document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-        }
-
-        async function actualizarLibro() {
-            const id = prompt("ID del libro a actualizar:");
-            const datos = {
-                titulo: prompt("Nuevo título (dejar vacío para no cambiar):") || undefined,
-                autor: prompt("Nuevo autor (dejar vacío para no cambiar):") || undefined,
-                isbn: prompt("Nuevo ISBN (dejar vacío para no cambiar):") || undefined,
-                categoria: prompt("Nueva categoría (dejar vacío para no cambiar):") || undefined,
-                estado: prompt("Nuevo estado (dejar vacío para no cambiar):") || undefined
-            };
-            const response = await fetch(`${API_URL}/libros/${id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(datos)
-            });
-            const data = await response.json();
-            document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-        }
-
-        async function eliminarLibro() {
-            const id = prompt("ID del libro a eliminar:");
-            const response = await fetch(`${API_URL}/libros/${id}`, {
-                method: "DELETE"
-            });
-            const data = await response.json();
-            document.getElementById("result").textContent = JSON.stringify(data, null, 2);
-        }
-    </script>
-</body>
-</html>
+<!-- para poder ver el archivo desde el frontend se tiene que poner la direccion http://127.0.0.1:7000/index.html 
+ utilizando python3 -m http.server 7000 en la terminal de este archivo para poder verlo desde esta direccion-->
+ <!DOCTYPE html>
+ <html lang="es">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Biblioteca</title>
+     <link rel="stylesheet" href="estilos.css">
+     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+ </head>
+ <body>
+     <div class="container">
+         <h1>Biblioteca</h1>
+         <h2>Opciones</h2>
+         <div class="botones">
+             <button onclick="listarLibros()">Listar Libros</button>
+             <button onclick="buscarPorTitulo()">Buscar por Título</button>
+             <button onclick="buscarPorCategoria()">Buscar por Categoría</button>
+             <button onclick="crearLibro()">Crear Libro</button>
+             <button onclick="actualizarLibro()">Actualizar Libro</button>
+             <button onclick="eliminarLibro()">Eliminar Libro</button>
+         </div>
+ 
+         <h2>Resultados</h2>
+         <pre class="result" id="result">Haz clic en un botón para ver resultados...</pre>
+     </div>
+ 
+     <script>
+         const API_URL = "http://127.0.0.1:8000";
+ 
+         async function listarLibros() {
+             const response = await fetch(`${API_URL}/libros/`);
+             const data = await response.json();
+             document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+         }
+ 
+         async function buscarPorTitulo() {
+             const titulo = prompt("Ingrese el título a buscar:");
+             const response = await fetch(`${API_URL}/libros/buscar/?titulo=${titulo}`);
+             const data = await response.json();
+             document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+         }
+ 
+         async function buscarPorCategoria() {
+             const categoria = prompt("Ingrese la categoría a buscar:");
+             const response = await fetch(`${API_URL}/libros/categoria/?categoria=${categoria}`);
+             const data = await response.json();
+             document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+         }
+ 
+         async function crearLibro() {
+             const libro = {
+                 titulo: prompt("Título del libro:"),
+                 autor: prompt("Autor del libro:"),
+                 isbn: prompt("ISBN del libro (13 caracteres):"),
+                 categoria: prompt("Categoría del libro:")
+             };
+             const response = await fetch(`${API_URL}/libros/`, {
+                 method: "POST",
+                 headers: { "Content-Type": "application/json" },
+                 body: JSON.stringify(libro)
+             });
+             const data = await response.json();
+             document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+         }
+ 
+         async function actualizarLibro() {
+             const id = prompt("ID del libro a actualizar:");
+             const datos = {
+                 titulo: prompt("Nuevo título (dejar vacío para no cambiar):") || undefined,
+                 autor: prompt("Nuevo autor (dejar vacío para no cambiar):") || undefined,
+                 isbn: prompt("Nuevo ISBN (dejar vacío para no cambiar):") || undefined,
+                 categoria: prompt("Nueva categoría (dejar vacío para no cambiar):") || undefined,
+                 estado: prompt("Nuevo estado (dejar vacío para no cambiar):") || undefined
+             };
+             const response = await fetch(`${API_URL}/libros/${id}`, {
+                 method: "PUT",
+                 headers: { "Content-Type": "application/json" },
+                 body: JSON.stringify(datos)
+             });
+             const data = await response.json();
+             document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+         }
+ 
+         async function eliminarLibro() {
+             const id = prompt("ID del libro a eliminar:");
+             const response = await fetch(`${API_URL}/libros/${id}`, {
+                 method: "DELETE"
+             });
+             const data = await response.json();
+             document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+         }
+     </script>
+ </body>
+ </html>
+ 
